@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+  <script type="text/x-template" id="template">
+    <v-app>
+      <v-content>
+        <v-container>
+          <h1>User List</h1>
+          <v-alert type="info" v-if="engine">current web server framework is {{engine}}</v-alert>
+          <ul>
+            <li v-for="(v, k) in users" class="mb-2">
+              <v-btn color="primary" @click="showProfile(v.path)">Show {{v.name}} profile</v-btn>
+            </li>
+          </ul>
+          <v-dialog v-model="dialog" max-width="300">
+            <v-card>
+              <v-card-title class="headline">{{profile.name}}<v-chip v-if="profile.isVip" class="ml-4" color="orange darken-1" dark>VIP user</v-chip></v-card-title>
+              <v-card-actions>
+                <div class="flex-grow-1"></div>
+                <v-btn color="primary" text @click="dialog=false">Close</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-container>
+      </v-content>
+    </v-app>
+  </script>
+  <div id="app"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script>
+    new Vue({
+      template: '#template',
+      el: '#app',
+      vuetify: new Vuetify(),
+      data: () => ({
+        users: [],
+        engine: '',
+        dialog: false,
+        profile: {
+          name: '',
+          score: 0,
+          isVip: false,
+        }
+      }),
+      async beforeMount() {
+        const res = await axios.get('/list')
+        this.engine = res.data.engine
+        this.users = res.data.users
+      },
+      methods: {
+        async showProfile(path) {
+          const res = await axios.get(path)
+          this.profile = { ...res.data }
+          this.dialog = true
+        },
+      },
+    })
+  </script>
+</body>
+</html>

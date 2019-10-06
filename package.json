@@ -1,0 +1,28 @@
+{
+  "name": "cleanarch-ts",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "npm run dev:koa:static",
+    "dev:koa:json": "env SERVER_TYPE=koa STORE_TYPE=json nodemon",
+    "dev:koa:static": "env SERVER_TYPE=koa STORE_TYPE=static nodemon",
+    "dev:express:json": "env SERVER_TYPE=express STORE_TYPE=json nodemon",
+    "dev:express:static": "env SERVER_TYPE=express STORE_TYPE=static nodemon"
+  },
+  "author": "dojineko",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "koa": "^2.8.2",
+    "koa-route": "^3.2.0",
+    "nodemon": "^1.19.3",
+    "ts-node": "^8.4.1",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.6.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.1",
+    "@types/koa": "^2.0.50",
+    "@types/koa-route": "^3.2.4",
+    "@types/node": "^12.7.11"
+  }
+}
